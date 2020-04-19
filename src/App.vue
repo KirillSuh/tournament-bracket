@@ -1,20 +1,42 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js + TypeScript App"/>
+    <input
+      type="number"
+      :value="inputSize"
+      @keyup="updateSize($event.target.value)"
+    />
+    <TournamentBracket
+      v-bind:size="bracketSize"
+      v-bind:matches="matches"
+    />
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
-import HelloWorld from './components/HelloWorld.vue'
+import TournamentBracket from '@/components/TournamentBracket.vue'
+import { namespace } from 'vuex-class'
+import { Match } from '@/store/modules/match'
+const bracket = namespace('Bracket')
 
 @Component({
   components: {
-    HelloWorld
+    TournamentBracket
   }
 })
-export default class App extends Vue {}
+export default class App extends Vue {
+  @bracket.State
+  public inputSize!: number;
+
+  @bracket.State
+  public bracketSize!: number;
+
+  @bracket.State
+  public matches!: Match[];
+
+  @bracket.Action
+  public updateSize!: (newSize: number) => void
+}
 </script>
 
 <style lang="scss">
