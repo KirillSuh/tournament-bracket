@@ -7,7 +7,7 @@
     />
     <TournamentBracket
       v-bind:size="bracketSize"
-      v-bind:matches="matches"
+      v-bind:round-list="roundList"
     />
   </div>
 </template>
@@ -16,7 +16,8 @@
 import { Component, Vue } from 'vue-property-decorator'
 import TournamentBracket from '@/components/TournamentBracket.vue'
 import { namespace } from 'vuex-class'
-import { Match } from '@/store/modules/match'
+import { Round } from '@/classes/round'
+
 const bracket = namespace('Bracket')
 
 @Component({
@@ -32,7 +33,7 @@ export default class App extends Vue {
   public bracketSize!: number;
 
   @bracket.State
-  public matches!: Match[];
+  public roundList!: Round[];
 
   @bracket.Action
   public updateSize!: (newSize: number) => void

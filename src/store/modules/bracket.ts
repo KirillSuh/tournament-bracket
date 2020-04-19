@@ -1,12 +1,13 @@
 import { Action, Module, Mutation, VuexModule } from 'vuex-module-decorators'
-import { Match } from '@/store/modules/match'
+import { Round } from '@/classes/round'
+import { Match } from '@/classes/match'
 
 @Module({ namespaced: true })
 class Bracket extends VuexModule {
   DEFAULT_SIZE = 2
   public inputSize: number = this.DEFAULT_SIZE;
   public bracketSize: number = this.DEFAULT_SIZE;
-  public matches: Match[] = [new Match(Match), new Match(Match)];
+  public roundList: Round[] = [];
 
   @Mutation
   public setInputSize (size: number): void {
@@ -17,8 +18,8 @@ class Bracket extends VuexModule {
     this.bracketSize = size
   }
 
-  @Mutation setMatches (matches: Match[]): void {
-    this.matches = matches
+  @Mutation setRoundList (roundList: Round[]): void {
+    this.roundList = roundList
   }
 
   @Action({ rawError: true })
@@ -26,13 +27,19 @@ class Bracket extends VuexModule {
     const bracketSize = 1 << 31 - Math.clz32(size || this.DEFAULT_SIZE)
     this.context.commit('setInputSize', size)
     this.context.commit('setBracketSize', bracketSize)
-    const matches = [...Array(bracketSize)].map((_, index) => {
-      const match = new Match(Match)
-      match.round = 0
-      match.players = [index.toString(), (index + 1).toString()]
-      return match
-    })
-    this.context.commit('setMatches', matches)
+    const roundList: Round[] = []
+    let roundNumber = 1
+    let matchesCount = bracketSize / 2
+    while (matchesCount >= 1) {
+      const matchList: Match[] = []
+      for (let matchNumber = 0; matchNumber < matchesCount; matchNumber++) {
+        matchList.push(new Match([(matchNumber + roundNumber).toString(), (matchNumber + roundNumber + 1).toString()]))
+      }
+      roundList.push(new Round(roundNumber, matchList))
+      roundNumber++
+      matchesCount /= 2
+    }
+    this.context.commit('setRoundList', roundList)
   }
 }
 
