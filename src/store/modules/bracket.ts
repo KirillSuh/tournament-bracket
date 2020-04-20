@@ -6,16 +6,11 @@ import { Match } from '@/classes/match'
 class Bracket extends VuexModule {
   DEFAULT_SIZE = 2
   public inputSize: number = this.DEFAULT_SIZE;
-  public bracketSize: number = this.DEFAULT_SIZE;
   public roundList: Round[] = [];
 
   @Mutation
   public setInputSize (size: number): void {
     this.inputSize = size
-  }
-
-  @Mutation setBracketSize (size: number): void {
-    this.bracketSize = size
   }
 
   @Mutation setRoundList (roundList: Round[]): void {

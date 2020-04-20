@@ -6,7 +6,6 @@
       @keyup="updateSize($event.target.value)"
     />
     <TournamentBracket
-      v-bind:size="bracketSize"
       v-bind:round-list="roundList"
     />
   </div>
@@ -28,9 +27,6 @@ const bracket = namespace('Bracket')
 export default class App extends Vue {
   @bracket.State
   public inputSize!: number;
-
-  @bracket.State
-  public bracketSize!: number;
 
   @bracket.State
   public roundList!: Round[];

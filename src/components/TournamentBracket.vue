@@ -5,12 +5,23 @@
         <div class="round" :key="index" :class="['round-' + round.number]">
           <template v-for="(match, matchIndex) in round.matchList">
             <div class="match" :key="matchIndex">
-              <div class="first-player match__content match-style">{{match.playerList[0]}}</div>
-              <div class="second-player match__content match-style">{{match.playerList[1]}}</div>
+              <div class="first-player player">
+                <span class="player-content">{{match.playerList[0]}}</span>
+              </div>
+              <div class="second-player player">
+                <span class="player-content">{{match.playerList[1]}}</span>
+              </div>
             </div>
           </template>
         </div>
       </template>
+      <div class="round" :key="['winner-round']">
+        <div class="match" :key="['winner-match']">
+          <div class="player">
+            <span class="player-content">winner</span>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -21,7 +32,6 @@ import { Round } from '@/classes/round'
 
 @Component
 export default class TournamentBracket extends Vue {
-  @Prop() readonly size!: number
   @Prop() readonly roundList!: Round[]
   @Prop() readonly matchStyle: object = () => ({
 
@@ -46,86 +56,58 @@ export default class TournamentBracket extends Vue {
   .round:first-child .match::before {
     display: none;
   }
-  .round:first-child .match__content::before {
-    display: none;
-  }
   .round:last-child .match::after {
     display: none;
   }
-
+  .round:first-child .match .player::before {
+    display: none;
+  }
+  .player {
+    background: #002828;
+    border: 1px solid #003232;
+    font-size: .875rem;
+    width: 100%;
+    height: 30px;
+    position: relative;
+  }
+  .player::before {
+    content: "";
+    display: block;
+    width: 10px;
+    border-bottom: 2px solid #005050;
+    margin-left: -2px;
+    position: absolute;
+    top: 50%;
+    left: -9px;
+  }
+  .first-player {
+    margin-bottom: 5px;
+  }
+  .second-player {
+    margin-top: 5px;
+  }
   .match {
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: space-around;
     flex-grow: 1;
     margin: 0 10px;
     padding: 6px 0;
     position: relative;
   }
-
-  .match::before {
-    content: "";
-    display: block;
-    min-height: 20%;
-    border-left: 2px solid purple;
-    position: absolute;
-    left: -8px;
-    top: 30%;
-    margin-top: -15px;
-    margin-left: -2px;
-  }
-
   .match::after {
     content: "";
     display: block;
-    min-height: 20%;
-    border-left: 2px solid purple;
-    position: absolute;
-    left: 10px;
-    top: -30%;
-    margin-top: -15px;
-    margin-left: -2px;
-  }
-
-  .first-player::after {
-    content: "";
-    display: block;
-    border: 2px solid transparent;
-    border-top-color: purple;
-    border-right-color: purple;
-    height: 60%;
-    position: absolute;
-    right: -6px;
-    width: 6px;
-    top: 50%;
-  }
-  .second-player::after {
-    content: "";
-    display: block;
-    border: 2px solid transparent;
-    border-bottom-color: purple;
-    border-right-color: purple;
-    height: 60%;
-    position: absolute;
-    right: -6px;
-    width: 6px;
-    bottom: 50%;
-  }
-  .match__content::before {
-    content: "";
-    display: block;
     width: 10px;
-    border-bottom: 2px solid purple;
-    margin-left: -2px;
+    height: 50%;
+    right: -10px;
+    border-color: #005050;
+    border-style: solid;
+    border-width: 2px 2px 2px 0;
     position: absolute;
-    top: 50%;
-    left: -10px;
   }
-
-  .match-style {
-    border: 2px solid green;
-    width: 100%;
-    height: 30px;
-    position: relative;
+  .player-content {
+    color: white;
+    line-height: 30px;
   }
 </style>
