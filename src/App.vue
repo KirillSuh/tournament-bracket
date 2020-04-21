@@ -5,9 +5,7 @@
       :value="inputSize"
       @keyup="updateSize($event.target.value)"
     />
-    <TournamentBracket
-      v-bind:round-list="roundList"
-    />
+    <TournamentBracket :bracket-tree="bracketTree"/>
   </div>
 </template>
 
@@ -15,12 +13,14 @@
 import { Component, Vue } from 'vue-property-decorator'
 import TournamentBracket from '@/components/TournamentBracket.vue'
 import { namespace } from 'vuex-class'
-import { Round } from '@/classes/round'
+import { BracketTree } from '@/classes/BracketTree'
+import TournamentBracketMatch from '@/components/TournamentBracketMatch.vue'
 
 const bracket = namespace('Bracket')
 
 @Component({
   components: {
+    TournamentBracketMatch,
     TournamentBracket
   }
 })
@@ -29,7 +29,7 @@ export default class App extends Vue {
   public inputSize!: number;
 
   @bracket.State
-  public roundList!: Round[];
+  public bracketTree!: BracketTree;
 
   @bracket.Action
   public updateSize!: (newSize: number) => void
