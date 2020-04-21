@@ -2,22 +2,29 @@ import { BracketTreeMatch, BracketTreeMatchInterface, BracketTreeMatchRootInterf
 
 export class BracketTree {
   private readonly roundsCount: number;
-  public rootNode: BracketTreeMatchRootInterface;
+  public winnerBracketNode: BracketTreeMatchRootInterface;
+  public loserBracketNode: BracketTreeMatchRootInterface;
 
   constructor (playersCount: number) {
     this.roundsCount = Math.log(playersCount) / Math.log(2) + 1
-    const finalMatch = new BracketTreeMatch(this.roundsCount, ['final1', 'final2'])
-    this.rootNode = {
-      player: 'winner',
+    this.winnerBracketNode = {
+      player: 'winner of winners',
       round: this.roundsCount + 1,
-      childMatch: finalMatch
+      childMatch: new BracketTreeMatch(this.roundsCount, ['', ''])
     }
-    this.generateBracket(finalMatch, this.roundsCount - 1)
+    this.generateBracket(this.winnerBracketNode.childMatch, this.roundsCount - 1)
+
+    this.loserBracketNode = {
+      player: 'winner of losers',
+      round: this.roundsCount,
+      childMatch: new BracketTreeMatch(this.roundsCount - 1, ['', ''])
+    }
+    this.generateBracket(this.loserBracketNode.childMatch, this.roundsCount - 2)
   }
 
   generateBracket (match: BracketTreeMatchInterface, round: number) {
     if (round > 0) {
-      const newChildMatches = [new BracketTreeMatch(round, [`test1 ${round}`, `test2 ${round}`]), new BracketTreeMatch(round, [`test1 ${round}`, `test2 ${round}`])]
+      const newChildMatches = [new BracketTreeMatch(round, ['', '']), new BracketTreeMatch(round, ['', ''])]
       match.childMatches = newChildMatches
       newChildMatches.forEach(value => this.generateBracket(value, round - 1))
     }

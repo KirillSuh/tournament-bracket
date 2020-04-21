@@ -1,17 +1,13 @@
 <template>
-  <ul>
+  <ul v-bind:class="{ 'loser-bracket': isLoserBracket }">
     <li>
-      <div class="player">
-        <span class="player-content">{{match.playerList[0]}}</span>
-      </div>
+      <TournamentBracketMatchPlayer :name="match.playerList[0]"/>
       <template v-if="match.childMatches && match.childMatches[0]">
         <TournamentBracketMatch :match="match.childMatches[0]"/>
       </template>
     </li>
     <li>
-      <div class="player">
-        <span class="player-content">{{match.playerList[1]}}</span>
-      </div>
+      <TournamentBracketMatchPlayer :name="match.playerList[1]"/>
       <template v-if="match.childMatches && match.childMatches[1]">
         <TournamentBracketMatch :match="match.childMatches[1]"/>
       </template>
@@ -22,24 +18,18 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator'
 import { BracketTreeMatch } from '@/classes/BracketTreeMatch'
-
-@Component
+import TournamentBracketMatchPlayer from '@/components/TournamentBracketMatchPlayer.vue'
+@Component({
+  components: { TournamentBracketMatchPlayer }
+})
 export default class TournamentBracketMatch extends Vue {
-    @Prop() match!: BracketTreeMatch
+  @Prop() match!: BracketTreeMatch
+  @Prop() isLoserBracket!: boolean
 }
 </script>
 
-<style scoped>
-  .player {
-    background: #002828;
-    border: 1px solid #003232;
-    font-size: .875rem;
-    width: 140px;
-    height: 30px;
-    display: inline-block;
-  }
-  .player-content {
-    color: white;
-    line-height: 30px;
+<style lang="scss">
+  .loser-bracket {
+    margin-left: 165px !important;
   }
 </style>

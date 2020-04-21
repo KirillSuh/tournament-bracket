@@ -5,7 +5,13 @@
       :value="inputSize"
       @keyup="updateSize($event.target.value)"
     />
-    <TournamentBracket :bracket-tree="bracketTree"/>
+    <input
+      type="checkbox"
+      :value="isDoubleElimination"
+      @click="updateIsDoubleElimination($event.target.checked)"
+    >
+    {{doubleEliminationString}}
+    <TournamentBracket :bracket-tree="bracketTree" :is-double-elimination="isDoubleElimination"/>
   </div>
 </template>
 
@@ -31,8 +37,18 @@ export default class App extends Vue {
   @bracket.State
   public bracketTree!: BracketTree;
 
+  @bracket.State
+  public isDoubleElimination!: boolean;
+
   @bracket.Action
   public updateSize!: (newSize: number) => void
+
+  @bracket.Action
+  public updateIsDoubleElimination!: (value: boolean) => void
+
+  get doubleEliminationString (): string {
+    return this.isDoubleElimination ? 'DoubleElimination' : 'SingleElimination'
+  }
 }
 </script>
 

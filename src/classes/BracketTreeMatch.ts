@@ -7,13 +7,13 @@ export interface BracketTreeMatchInterface {
 export interface BracketTreeMatchRootInterface {
   round: number;
   player: string;
-  childMatch?: BracketTreeMatchInterface;
+  childMatch: BracketTreeMatchInterface;
 }
 
 export class BracketTreeMatch implements BracketTreeMatchInterface {
   playerList: string[];
   round: number;
-  childMatches?: BracketTreeMatchInterface[]
+  childMatches?: BracketTreeMatchInterface[];
 
   public constructor (round: number, playerList: string[]) {
     this.round = round
