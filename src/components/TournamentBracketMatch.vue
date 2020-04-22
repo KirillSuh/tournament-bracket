@@ -7,7 +7,7 @@
       </template>
     </li>
     <li>
-      <TournamentBracketMatchPlayer :name="match.playerList[1].name" :id="match.playerList[0].id"/>
+      <TournamentBracketMatchPlayer :name="match.playerList[1].name" :id="match.playerList[1].id"/>
       <template v-if="match.childMatches && match.childMatches[1]">
         <TournamentBracketMatch :match="match.childMatches[1]"/>
       </template>
