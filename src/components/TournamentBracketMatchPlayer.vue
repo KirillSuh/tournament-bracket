@@ -14,6 +14,7 @@ import { Component, Prop, Vue } from 'vue-property-decorator'
 export default class TournamentBracketMatchPlayer extends Vue {
     @Prop() name!: string
     @Prop() additionalClass?: string
+    @Prop() id?: number
 }
 </script>
 

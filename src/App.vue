@@ -9,8 +9,13 @@
       type="checkbox"
       :value="isDoubleElimination"
       @click="updateIsDoubleElimination($event.target.checked)"
-    >
+    />
     {{doubleEliminationString}}
+    <input
+      type="button"
+      @click="randomizePlayers"
+      value="Randomize"
+    />
     <TournamentBracket :bracket-tree="bracketTree" :is-double-elimination="isDoubleElimination"/>
   </div>
 </template>
@@ -45,6 +50,9 @@ export default class App extends Vue {
 
   @bracket.Action
   public updateIsDoubleElimination!: (value: boolean) => void
+
+  @bracket.Action
+  public randomizePlayers!: () => void
 
   get doubleEliminationString (): string {
     return this.isDoubleElimination ? 'DoubleElimination' : 'SingleElimination'

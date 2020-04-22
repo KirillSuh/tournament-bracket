@@ -1,13 +1,13 @@
 <template>
   <ul v-bind:class="{ 'loser-bracket': isLoserBracket }">
     <li>
-      <TournamentBracketMatchPlayer :name="match.playerList[0]"/>
+      <TournamentBracketMatchPlayer :name="match.playerList[0].name" :id="match.playerList[0].id"/>
       <template v-if="match.childMatches && match.childMatches[0]">
         <TournamentBracketMatch :match="match.childMatches[0]"/>
       </template>
     </li>
     <li>
-      <TournamentBracketMatchPlayer :name="match.playerList[1]"/>
+      <TournamentBracketMatchPlayer :name="match.playerList[1].name" :id="match.playerList[0].id"/>
       <template v-if="match.childMatches && match.childMatches[1]">
         <TournamentBracketMatch :match="match.childMatches[1]"/>
       </template>

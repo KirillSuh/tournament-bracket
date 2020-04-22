@@ -1,22 +1,24 @@
+import { BracketTreeMatchPlayer, BracketTreeMatchPlayerInterface } from '@/classes/BracketTreeMatchPlayer'
+
 export interface BracketTreeMatchInterface {
   round: number;
-  playerList: string[];
+  playerList: BracketTreeMatchPlayerInterface[];
   childMatches?: BracketTreeMatchInterface[];
 }
 
 export interface BracketTreeMatchRootInterface {
   round: number;
-  player: string;
-  childMatch: BracketTreeMatchInterface;
+  player: BracketTreeMatchPlayerInterface;
+  childMatch: BracketTreeMatch;
 }
 
 export class BracketTreeMatch implements BracketTreeMatchInterface {
-  playerList: string[];
+  playerList: BracketTreeMatchPlayer[];
   round: number;
-  childMatches?: BracketTreeMatchInterface[];
+  childMatches?: BracketTreeMatch[];
 
-  public constructor (round: number, playerList: string[]) {
+  public constructor (round: number) {
     this.round = round
-    this.playerList = playerList
+    this.playerList = [new BracketTreeMatchPlayer(), new BracketTreeMatchPlayer()]
   }
 }

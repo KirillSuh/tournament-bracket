@@ -4,7 +4,7 @@
       <ul class="bracket horizontal">
         <li>
           <TournamentBracketMatchPlayer
-            :name="bracketTree.winnerBracketNode.player"
+            :name="bracketTree.winnerBracketNode.player.name"
             :additional-class="{'double-elimination-winners-final': isDoubleElimination}"
           />
           <TournamentBracketMatch :match="bracketTree.winnerBracketNode.childMatch"/>
@@ -15,7 +15,7 @@
       <ul class="bracket horizontal">
         <li>
           <TournamentBracketMatchPlayer
-            :name="bracketTree.loserBracketNode.player"
+            :name="bracketTree.loserBracketNode.player.name"
             :additional-class="{'double-elimination-losers-final': isDoubleElimination}"
           />
           <TournamentBracketMatch :match="bracketTree.loserBracketNode.childMatch" :is-loser-bracket="true"/>

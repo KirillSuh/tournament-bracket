@@ -32,6 +32,11 @@ class Bracket extends VuexModule {
   public updateIsDoubleElimination (isDoubleElimination: boolean): void {
     this.context.commit('setIsDoubleElimination', isDoubleElimination)
   }
+
+  @Action({ rawError: true })
+  public randomizePlayers (): void {
+    this.bracketTree.randomFirstMatchPlayers()
+  }
 }
 
 export { Bracket }
