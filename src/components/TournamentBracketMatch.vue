@@ -1,13 +1,19 @@
 <template>
   <ul v-bind:class="{ 'loser-bracket': isLoserBracket }">
     <li>
-      <TournamentBracketMatchPlayer :name="match.playerList[0].name" :id="match.playerList[0].id"/>
+      <TournamentBracketMatchPlayer
+        :player="match.playerList[0]"
+        :is-draggable="isDraggable"
+      />
       <template v-if="match.childMatches && match.childMatches[0]">
         <TournamentBracketMatch :match="match.childMatches[0]"/>
       </template>
     </li>
     <li>
-      <TournamentBracketMatchPlayer :name="match.playerList[1].name" :id="match.playerList[1].id"/>
+      <TournamentBracketMatchPlayer
+        :player="match.playerList[1]"
+        :is-draggable="isDraggable"
+      />
       <template v-if="match.childMatches && match.childMatches[1]">
         <TournamentBracketMatch :match="match.childMatches[1]"/>
       </template>
@@ -25,6 +31,10 @@ import TournamentBracketMatchPlayer from '@/components/TournamentBracketMatchPla
 export default class TournamentBracketMatch extends Vue {
   @Prop() match!: BracketTreeMatch
   @Prop() isLoserBracket!: boolean
+
+  get isDraggable (): boolean {
+    return this.match.round === 1
+  }
 }
 </script>
 

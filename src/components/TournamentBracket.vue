@@ -4,8 +4,9 @@
       <ul class="bracket horizontal">
         <li>
           <TournamentBracketMatchPlayer
-            :name="bracketTree.winnerBracketNode.player.name"
+            :player="bracketTree.winnerBracketNode.player"
             :additional-class="{'double-elimination-winners-final': isDoubleElimination}"
+            :is-draggable="false"
           />
           <TournamentBracketMatch :match="bracketTree.winnerBracketNode.childMatch"/>
         </li>
@@ -15,14 +16,15 @@
       <ul class="bracket horizontal">
         <li>
           <TournamentBracketMatchPlayer
-            :name="bracketTree.loserBracketNode.player.name"
+            :player="bracketTree.loserBracketNode.player"
             :additional-class="{'double-elimination-losers-final': isDoubleElimination}"
+            :is-draggable="false"
           />
           <TournamentBracketMatch :match="bracketTree.loserBracketNode.childMatch" :is-loser-bracket="true"/>
         </li>
       </ul>
       <TournamentBracketMatchPlayer
-        name="winner of winners"
+        :player="winnerOfWinners"
         additional-class="double-elimination-winner"
       />
     </div>
@@ -34,12 +36,17 @@ import { Component, Prop, Vue } from 'vue-property-decorator'
 import { BracketTree } from '@/classes/BracketTree'
 import TournamentBracketMatch from '@/components/TournamentBracketMatch.vue'
 import TournamentBracketMatchPlayer from '@/components/TournamentBracketMatchPlayer.vue'
+import { BracketTreeMatchPlayer } from '@/classes/BracketTreeMatchPlayer'
 @Component({
   components: { TournamentBracketMatchPlayer, TournamentBracketMatch }
 })
 export default class TournamentBracket extends Vue {
   @Prop() readonly bracketTree!: BracketTree[]
   @Prop() readonly isDoubleElimination!: boolean
+
+  get winnerOfWinners (): BracketTreeMatchPlayer {
+    return new BracketTreeMatchPlayer('winner of winners')
+  }
 }
 </script>
 

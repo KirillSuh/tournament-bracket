@@ -1,5 +1,6 @@
 import { Action, Module, Mutation, VuexModule } from 'vuex-module-decorators'
 import { BracketTree } from '@/classes/BracketTree'
+import { BracketTreeMatchPlayer } from '@/classes/BracketTreeMatchPlayer'
 
 @Module({ namespaced: true })
 class Bracket extends VuexModule {
@@ -7,6 +8,8 @@ class Bracket extends VuexModule {
   public inputSize: number = this.DEFAULT_SIZE;
   public bracketTree: BracketTree = new BracketTree(this.DEFAULT_SIZE);
   public isDoubleElimination = false;
+  public dragStartPlayer?: BracketTreeMatchPlayer;
+  public dragTargetPlayer?: BracketTreeMatchPlayer;
 
   @Mutation
   public setInputSize (size: number): void {
@@ -21,6 +24,14 @@ class Bracket extends VuexModule {
     this.isDoubleElimination = isDoubleElimination
   }
 
+  @Mutation setDragStartPlayer (player: BracketTreeMatchPlayer): void {
+    this.dragStartPlayer = player
+  }
+
+  @Mutation setDragTargetPlayer (player?: BracketTreeMatchPlayer): void {
+    this.dragTargetPlayer = player
+  }
+
   @Action({ rawError: true })
   public updateSize (size: number): void {
     const bracketSize = 1 << 31 - Math.clz32(size || this.DEFAULT_SIZE)
@@ -29,13 +40,15 @@ class Bracket extends VuexModule {
   }
 
   @Action({ rawError: true })
-  public updateIsDoubleElimination (isDoubleElimination: boolean): void {
-    this.context.commit('setIsDoubleElimination', isDoubleElimination)
+  public randomizePlayers (): void {
+    this.bracketTree.randomFirstMatchesPlayers()
   }
 
   @Action({ rawError: true })
-  public randomizePlayers (): void {
-    this.bracketTree.randomFirstMatchPlayers()
+  public dragEnd (): void {
+    if (this.dragTargetPlayer && this.dragStartPlayer) {
+      this.bracketTree.changePlayers(this.dragStartPlayer, this.dragTargetPlayer)
+    }
   }
 }
 

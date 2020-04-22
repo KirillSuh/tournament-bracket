@@ -31,7 +31,7 @@ export class BracketTree {
     }
   }
 
-  randomFirstMatchPlayers () {
+  randomFirstMatchesPlayers () {
     let id = 1
     const current = this.winnerBracketNode.childMatch
 
@@ -46,5 +46,13 @@ export class BracketTree {
     }
 
     traverse(current)
+  }
+
+  changePlayers (playerOne: BracketTreeMatchPlayer, playerTwo: BracketTreeMatchPlayer) {
+    const transferPlayer = { ...playerOne }
+    if (playerTwo.id && playerTwo.name && transferPlayer.id && transferPlayer.name) {
+      playerOne.setBracketTreeMatchPlayerValues(playerTwo.id, playerTwo.name)
+      playerTwo.setBracketTreeMatchPlayerValues(transferPlayer.id, transferPlayer.name)
+    }
   }
 }

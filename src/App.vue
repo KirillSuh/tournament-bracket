@@ -8,7 +8,7 @@
     <input
       type="checkbox"
       :value="isDoubleElimination"
-      @click="updateIsDoubleElimination($event.target.checked)"
+      @click="setIsDoubleElimination($event.target.checked)"
     />
     {{doubleEliminationString}}
     <input
@@ -48,8 +48,8 @@ export default class App extends Vue {
   @bracket.Action
   public updateSize!: (newSize: number) => void
 
-  @bracket.Action
-  public updateIsDoubleElimination!: (value: boolean) => void
+  @bracket.Mutation
+  public setIsDoubleElimination!: (value: boolean) => void
 
   @bracket.Action
   public randomizePlayers!: () => void
